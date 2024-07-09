@@ -13,7 +13,7 @@ services:
     depends_on:
       - ollama
     restart: unless-stopped
-      #network_mode: "host"
+    network_mode: "host"
   ngrok:
     image: ngrok/ngrok:alpine
     command:
