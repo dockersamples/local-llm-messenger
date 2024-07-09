@@ -5,7 +5,7 @@ See it in action with this video 👇.
 
 ## Note:
 
-This repository introduces a few new changes compared to the original, including:
+This repository introduces a few new changes compared to the [original repo](https://github.com/rothgar/local-llm-messenger), including:
 
 1. It's recommended to use the newer `client.completions.create()` method if your library version is 1.0.0 or later. This method is the current standard and offers more control over the API call.
    Here are the changes made to the original `main.py` script:
