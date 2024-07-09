@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from sendblue import Sendblue
 
-client = openai.Client(api_key="sk-XXXXXXXFMVMn0P")
+client = openai.Client(api_key="sk-proj-XXXX")
 
 SENDBLUE_API_KEY = os.environ.get("SENDBLUE_API_KEY")
 SENDBLUE_API_SECRET = os.environ.get("SENDBLUE_API_SECRET")
@@ -318,7 +318,6 @@ def append_context(source: str, content: str):
         f.write(line)
     f.close()
 
-
 def create_messages_from_context(provider_api: str) -> List[str]:
     """Reads the context file and creates properly formatted messages"""
     messages = []
@@ -345,7 +344,9 @@ def create_messages_from_context(provider_api: str) -> List[str]:
         # Add your code here to generate messages for OpenAI
         pass
 
+    # Notice the indentation here is the same as the lines above
     return messages
+
 
 
 def match_closest_model(model: str) -> str:
@@ -448,72 +449,9 @@ def command(msg: Msg):
             help_response = sendblue.send_message(
                 msg.from_number,
                 {
-                    "content": def command(msg: Msg):
-                        """This is for slash commands that can be helpful from within messages.
-                        None of these commands should interact with a model"""
-
-                        commands = ["help", "list", "install", "default"]
-                        cmd = msg.content.strip("/").lower().split(" ")[0]
-                        match cmd:
-                            case "help":
-                                help_response = sendblue.send_message(
-                                    msg.from_number,
-                                    {
-                                        "content": "Available commands:\n/" + "\n/".join(commands),
-                                        "status_callback": CALLBACK_URL,
-                                    },
-                                )
-                            case "list":
-                                # list ai againts
-                                available_models = get_model_list()
-                                default_model = get_default_model()
-                                available_models = [
-                                    m.replace(default_model, default_model + "*") for m in available_models
-                                ]
-                                list_response = sendblue.send_message(
-                                    msg.from_number,
-                                    {
-                                        "content": "Available models:\n" + "\n".join(available_models),
-                                        "status_callback": CALLBACK_URL,
-                                    },
-                                )
-                            case "install":
-                                # install ollama
-                                args = msg.content.lower().split(" ")[1]
-                                pull_data = '{"name": "' + args + '","stream": false}'
-                                install_response = sendblue.send_message(
-                                    msg.from_number,
-                                    {"content": "Installing " + args, "status_callback": CALLBACK_URL},
-                                )
-                                try:
-                                    pull_resp = requests.post(OLLAMA_API + "/pull", data=pull_data)
-                                    pull_resp.raise_for_status()
-                                except requests.exceptions.HTTPError as err:
-                                    raise SystemExit(err)
-                                done_response = sendblue.send_message(
-                                    msg.from_number,
-                                    {
-                                        "content": "Installed " + args + " Use it with /default",
-                                        "status_callback": CALLBACK_URL,
-                                    },
-                                )
-                            case "default":
-                                # set default model
-                                args = msg.content.lower().split(" ")[1]
-                                matched_model = match_closest_model(args)
-                                print("setting default model " + matched_model)
-                                set_default_model(matched_model)
-                            case _:
-                                help_response = sendblue.send_message(
-                                    msg.from_number,
-                                    {
-                                        "content": "Command " + msg.content + " not available.",
-                                        "status_callback": CALLBACK_URL,
-                                    },
-                                )
-                        return"Available commands:\n/" + "\n/".join(commands),
+                    "content": "Available commands:\n/" + "\n/".join(commands),
                     "status_callback": CALLBACK_URL,
-                },
+                }
             )
         case "list":
             # list ai againts
@@ -527,7 +465,7 @@ def command(msg: Msg):
                 {
                     "content": "Available models:\n" + "\n".join(available_models),
                     "status_callback": CALLBACK_URL,
-                },
+                }
             )
         case "install":
             # install ollama
@@ -535,7 +473,10 @@ def command(msg: Msg):
             pull_data = '{"name": "' + args + '","stream": false}'
             install_response = sendblue.send_message(
                 msg.from_number,
-                {"content": "Installing " + args, "status_callback": CALLBACK_URL},
+                {
+                    "content": "Installing " + args,
+                    "status_callback": CALLBACK_URL,
+                }
             )
             try:
                 pull_resp = requests.post(OLLAMA_API + "/pull", data=pull_data)
@@ -547,7 +488,7 @@ def command(msg: Msg):
                 {
                     "content": "Installed " + args + " Use it with /default",
                     "status_callback": CALLBACK_URL,
-                },
+                }
             )
         case "default":
             # set default model
@@ -561,7 +502,7 @@ def command(msg: Msg):
                 {
                     "content": "Command " + msg.content + " not available.",
                     "status_callback": CALLBACK_URL,
-                },
+                }
             )
     return
 
