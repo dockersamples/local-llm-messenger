@@ -3,6 +3,12 @@
 This app allows you to send iMessages to the genAI models running in your own computer.
 See it in action with this video 👇.
 
+## Important Note:
+
+It's recommended to use the newer `client.completions.create()` method if your library version is 1.0.0 or later. This method is the current standard and offers more control over the API call.
+
+
+
 [![Video overview](https://img.youtube.com/vi/rlD4FtIXV8E/0.jpg)](https://youtu.be/rlD4FtIXV8E)
 
 https://youtu.be/rlD4FtIXV8E
