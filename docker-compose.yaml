@@ -21,6 +21,8 @@ services:
       - "8000"
       - "--log"
       - "stdout"
+    environment:
+      - NGORK_AUTHTOKEN=XXXX
     network_mode: "host"
   ollama:
     image: ollama/ollama
@@ -28,7 +30,7 @@ services:
       - 11434:11434
     volumes:
       - ./run/ollama:/home/ollama
-        #network_mode: "host"
+    network_mode: "host"
     deploy:
       resources:
         reservations:
