@@ -1,3 +1,4 @@
 app/.env
 app/media/*
 app/context.txt
+local-llm-messenger/run
