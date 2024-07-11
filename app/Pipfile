@@ -9,6 +9,7 @@ openai = "=1.0.0rc3"
 uvicorn = {extras = ["standard"], version = "*"}
 fastapi = "*"
 requests = "*"
+python-dotenv = "*"  # Corrected package name and format
 
 [dev-packages]
 
